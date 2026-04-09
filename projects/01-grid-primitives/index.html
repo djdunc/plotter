@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>01 - Grid Primitives | Pen Plotter Art</title>
+    <link rel="stylesheet" href="../../assets/style.css">
+
+    <!-- Load p5.js locally -->
+    <script src="../../assets/p5.min.js"></script>
+    <script src="../../assets/p5.svg.min.js"></script>
+</head>
+
+<body>
+    <header style="padding: 2rem;">
+        <h1>01 - Grid Primitives</h1>
+        <p>Testing nested loops, grid alignment, and drawing basic shapes on A5.</p>
+    </header>
+
+    <main class="container">
+        <a href="../../index.html" class="back-link">← Back to Portfolio</a>
+
+        <div class="project-layout">
+            <div class="canvas-container" id="p5-container">
+                <!-- p5 sketch will be injected here -->
+            </div>
+
+            <div class="sidebar">
+                <h3>About the Sketch</h3>
+                <p>This simple sketch creates a grid of nested rectangles and circles. It's the perfect first test for a
+                    pen plotter to check alignment, scale, and ink absorption when paths are very close to one another.
+                </p>
+                <p><strong>Dimensions:</strong> A5 (148 x 210 mm)</p>
+
+                <div class="controls">
+                    <button id="btn-animate" class="btn">Regenerate Pattern</button>
+                    <button id="btn-export" class="btn secondary">Export SVG for Plotter</button>
+                </div>
+
+                <div style="margin-top: 2rem;">
+                    <h3>Photo of Plot</h3>
+                    <img src="photo.png" alt="Photo of Plot"
+                        style="max-width: 100%; height: auto; border: 1px solid #ccc; border-radius: 4px;">
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script src="sketch.js"></script>
+</body>
+
+</html>

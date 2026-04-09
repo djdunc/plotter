@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Raw SVG Gallery | Pen Plotter Art</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 2rem 1rem;
+            font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+            background-color: #fafafa;
+            color: #222;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        h1 {
+            font-weight: 300;
+            font-size: 2.5rem;
+            margin: 0 0 1rem 0;
+            letter-spacing: -0.5px;
+        }
+
+        .back-link {
+            text-decoration: none;
+            color: #666;
+            font-size: 0.95rem;
+            border: 1px solid #ddd;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            transition: all 0.2s;
+        }
+
+        .back-link:hover {
+            color: #000;
+            border-color: #999;
+            background: #fff;
+        }
+
+        .gallery-grid {
+            display: grid;
+            /* Halved width (140px approx half of 280px) and minimal gap */
+            grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+            gap: 0.5rem;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .gallery-item {
+            display: block;
+            text-decoration: none;
+            background: #fff;
+            border: 1px solid #eaeaea;
+            border-radius: 4px;
+            padding: 0.5rem;
+            /* Reduced padding */
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            aspect-ratio: 1 / 1.414;
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .gallery-item:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.08);
+            border-color: #ccc;
+            z-index: 10;
+        }
+
+        .gallery-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            opacity: 0.85;
+            transition: opacity 0.3s;
+        }
+
+        .gallery-item:hover img {
+            opacity: 1;
+        }
+
+        .overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: rgba(255, 255, 255, 0.95);
+            padding: 0.5rem;
+            text-align: center;
+            font-size: 0.75rem;
+            font-weight: 500;
+            color: #111;
+            border-top: 1px solid #eaeaea;
+            transform: translateY(100%);
+            transition: transform 0.3s cubic-bezier(0.165, 0.84, 0.44, 1);
+        }
+
+        .gallery-item:hover .overlay {
+            transform: translateY(0);
+        }
+
+        .placeholder {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #bbb;
+            font-style: italic;
+            font-size: 0.7rem;
+            text-align: center;
+            background: #fdfdfd;
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <h1>Raw SVG Outputs</h1>
+        <p style="color: #666; margin-bottom: 2rem;">A minimalist view of the exact vector paths sent to the plotter.
+        </p>
+        <a href="index.html" class="back-link">← Back to Main Page</a>
+    </header>
+
+    <div class="gallery-grid" id="dynamic-grid">
+        <!-- Javascript will automatically populate the contents by reading index.html -->
+    </div>
+
+    <script>
+        // Because a static site (like Github Pages) has no active server to read the filesystem directories,
+        // we use a neat trick: we fetch the main index.html file, find all links pointing to project folders,
+        // and dynamically generate the gallery thumbnails based on your portfolio.
+        // This way, you only ever update index.html, and this gallery updates automatically!
+
+        fetch('index.html')
+            .then(response => response.text())
+            .then(html => {
+                const parser = new DOMParser();
+                const doc = parser.parseFromString(html, 'text/html');
+                const links = doc.querySelectorAll('.card-content a');
+                const grid = document.getElementById('dynamic-grid');
+
+                links.forEach(link => {
+                    const href = link.getAttribute('href');
+
+                    // Only process links pointing to the projects directory
+                    if (href && href.startsWith('./projects/')) {
+                        const title = link.parentElement.querySelector('h2').innerText;
+                        // Normalize the href (remove leading ./)
+                        const cleanPath = href.replace('./', '');
+
+                        // Create the gallery anchor wrapper
+                        const a = document.createElement('a');
+                        a.href = cleanPath;
+                        a.className = 'gallery-item';
+
+                        // Create and load the image
+                        const img = document.createElement('img');
+                        // Use output.svg as per standard
+                        img.src = `${cleanPath}output.svg`;
+                        img.alt = title;
+                        // Provide a placeholder fallback if the SVG does not exist yet
+                        img.onerror = function () {
+                            this.outerHTML = '<div class="placeholder">Pending<br>SVG Generation</div>';
+                        };
+
+                        // Create the hover text strip
+                        const overlay = document.createElement('div');
+                        overlay.className = 'overlay';
+                        overlay.innerText = title;
+
+                        a.appendChild(img);
+                        a.appendChild(overlay);
+                        grid.appendChild(a);
+                    }
+                });
+            })
+            .catch(err => {
+                console.error('Error fetching project list:', err);
+                document.getElementById('dynamic-grid').innerHTML = '<p style="text-align: center; grid-column: 1/-1;">Could not load project index.</p>';
+            });
+    </script>
+</body>
+
+</html>
