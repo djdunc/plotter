@@ -10,6 +10,8 @@ View the digital portfolio at [https://djdunc.github.io/plotter/](https://djdunc
 
 Initial info at [http://www.iot.io/blog/2025/01/18/plotter.html](http://www.iot.io/blog/2025/01/18/plotter.html)
 
+Nextdraw folder has documentation and examples of how to use the NextDraw plotter plus some early plots.
+
 ### Projects Structure
 - `projects/`: The generative sketches
 - `assets/`: Shared libraries such as `p5.min.js` and CSS.
@@ -17,8 +19,6 @@ Initial info at [http://www.iot.io/blog/2025/01/18/plotter.html](http://www.iot.
 - `gallery.html`: The gallery of raw SVG images.
 
 ### Legacy work 
-
-Some test SVG plots are in the folder [plots](https://github.com/djdunc/plotter/tree/main/plots). This has now been replaced with the [gallery](gallery.html).
 
 p5 folder has some initial experiments with p5.
 
