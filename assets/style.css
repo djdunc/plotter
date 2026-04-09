@@ -134,6 +134,10 @@ header p {
   .project-layout {
     grid-template-columns: 1fr;
   }
+  .canvas-container {
+    padding: 1rem !important;
+    min-height: 300px !important;
+  }
 }
 
 .canvas-container {
@@ -145,6 +149,15 @@ header p {
   justify-content: center;
   padding: 2rem;
   min-height: 400px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+/* Ensure the injected SVG or Canvas shrinks on mobile screens */
+.canvas-container canvas, 
+.canvas-container svg {
+  max-width: 100%;
+  height: auto !important;
 }
 
 .sidebar {
