@@ -23,3 +23,14 @@ Nextdraw folder has documentation and examples of how to use the NextDraw plotte
 p5 folder has some initial experiments with p5.
 
 Processing folder has some initial processing sketches.
+
+## Printing process reminder
+
+Assumes NextDraw is connected and configured with the correct drivers and inkscape software. See Nextdraw setup guide.
+
+1. Create .svg file
+2. Open svg in inkscape and check the page size is set to A5 portrait
+3. Open Inkscape > Extensions > Bantam Tools NextDraw
+4. Check pen height in the Setup tab. Click apply to check the pen up / down.
+5. Back to plot tab and click plot. 
+
