@@ -22,8 +22,43 @@
         <a href="../../index.html" class="back-link">← Back to Portfolio</a>
 
         <div class="project-layout">
-            <div class="canvas-container" id="p5-container">
-                <!-- p5 sketch will be injected here -->
+            <div class="main-column">
+                <div class="canvas-container" id="p5-container">
+                    <!-- p5 sketch will be injected here -->
+                </div>
+
+                <div class="code-section"
+                    style="margin-top: 2rem; background: #fff; border: 1px solid #eaeaea; border-radius: 8px; padding: 1.5rem; box-shadow: 0 4px 6px rgba(0,0,0,0.02);">
+                    <h3 style="margin-top: 0; border-bottom: 1px solid #eaeaea; padding-bottom: 0.5rem;">Core Algorithm:
+                        drawCell</h3>
+                    <p style="color: #666; font-size: 0.95rem; margin-bottom: 1rem;">This function takes each individual
+                        grid cell and populates it with randomly scaling, nested primitives algorithmically.</p>
+                    <pre
+                        style="background: #f4f4f4; color: #333; padding: 1rem; border-radius: 4px; overflow-x: auto; font-size: 0.85rem; font-family: ui-monospace, 'Courier New', Courier, monospace; border: 1px solid #e0e0e0; line-height: 1.5;"><code>function drawCell(x, y, w, h) {
+    push();
+    translate(x + w / 2, y + h / 2);
+
+    let padding = 5;
+    let maxDim = Math.min(w, h) - padding * 2;
+
+    // Determine primitive type and nest depth
+    let rType = 1;
+    let steps = floor(random(3, 8));
+
+    for (let i = 0; i < steps; i++) {
+        let size = map(i, 0, steps - 1, maxDim, maxDim * 0.1);
+        if (size <= 0) continue;
+
+        if (rType === 0) {
+            circle(0, 0, size);
+        } else if (rType === 1) {
+            rectMode(CENTER);
+            rect(0, 0, size, size);
+        }
+    }
+    pop();
+}</code></pre>
+                </div>
             </div>
 
             <div class="sidebar">
@@ -40,7 +75,9 @@
 
                 <div style="margin-top: 2rem;">
                     <h3>Photo of Plot</h3>
-                    <img src="photo.png" alt="Photo of Plot"
+                    <img src="photo.jpeg" alt="Photo of Plot"
+                        style="max-width: 100%; height: auto; border: 1px solid #ccc; border-radius: 4px;">
+                    <img src="photo1.jpeg" alt="Photo of Plot"
                         style="max-width: 100%; height: auto; border: 1px solid #ccc; border-radius: 4px;">
                 </div>
             </div>

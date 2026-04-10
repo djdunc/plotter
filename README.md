@@ -34,3 +34,14 @@ Assumes NextDraw is connected and configured with the correct drivers and inksca
 4. Check pen height in the Setup tab. Click apply to check the pen up / down.
 5. Back to plot tab and click plot. 
 
+## Setting pen height
+
+Noted "thudding" of pen on paper when pen height is set too low. Use the pen up / down on Bantam tools to check the force that it is hitting a test piece of paper. Wants to touch but not thud.
+
+## Guides
+
+![Image of paper guides](assets/guide.jpeg)
+
+## Serial Number
+
+![Serial number](assets/model.jpeg)
