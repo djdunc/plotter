@@ -130,16 +130,6 @@ header p {
   align-items: start;
 }
 
-@media (max-width: 768px) {
-  .project-layout {
-    grid-template-columns: 1fr;
-  }
-  .canvas-container {
-    padding: 1rem !important;
-    min-height: 300px !important;
-  }
-}
-
 .canvas-container {
   background: #fff;
   border: 1px solid var(--border-color);
@@ -156,8 +146,18 @@ header p {
 /* Ensure the injected SVG or Canvas shrinks on mobile screens */
 .canvas-container canvas, 
 .canvas-container svg {
-  max-width: 100%;
+  max-width: 100% !important;
   height: auto !important;
+}
+
+@media (max-width: 768px) {
+  .project-layout {
+    grid-template-columns: 1fr;
+  }
+  .canvas-container {
+    padding: 1rem;
+    min-height: 300px;
+  }
 }
 
 .sidebar {
