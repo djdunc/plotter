@@ -34,14 +34,20 @@ Assumes NextDraw is connected and configured with the correct drivers and inksca
 4. Check pen height in the Setup tab. Click apply to check the pen up / down.
 5. Back to plot tab and click plot. 
 
-## Setting pen height
+### Setting pen height
 
 Noted "thudding" of pen on paper when pen height is set too low. Use the pen up / down on Bantam tools to check the force that it is hitting a test piece of paper. Wants to touch but not thud.
 
-## Guides
+### Guides
 
 ![Image of paper guides](assets/guide.jpeg)
 
-## Serial Number
+### Reminders
+
+**A box is being printed around the artwork but I cannot see that box in my sketch?**
+In p5.js, calling background(255) on an SVG canvas explicitly translates into creating an SVG <rect> that spans the full width and height of the canvas, filled with the color white (rgb(255, 255, 255)). While that bounding box is completely invisible on your white computer screen, standard SVG tools (and the NextDraw Inkscape extension) ignore colors—they purely see mathematical vector paths. When Inkscape parses the exported SVG, it sees that giant rectangular path and dutifully sends the pen plotter around the perimeter of the paper before drawing the art. The Fix: never call background(...) when dealing with physical plot files if you just want blank paper. Instead, use clear(), which wipes the digital canvas transparent without generating any SVG elements.
+
+
+### Serial Number
 
 ![Serial number](assets/model.jpeg)

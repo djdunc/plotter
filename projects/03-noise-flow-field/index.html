@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>03 - Noise Flow Fields | Pen Plotter Art</title>
+    <link rel="stylesheet" href="../../assets/style.css">
+
+    <!-- Load p5.js locally -->
+    <script src="../../assets/p5.min.js"></script>
+    <script src="../../assets/p5.svg.min.js"></script>
+</head>
+
+<body>
+    <header style="padding: 2rem;">
+        <h1>03 - Noise Flow Fields</h1>
+        <p>Simulating particle paths over a 2D Perlin noise vector field to create natural, organic flows.</p>
+    </header>
+
+    <main class="container">
+        <a href="../../index.html" class="back-link">← Back to Portfolio</a>
+
+        <div class="project-layout">
+            <div class="main-column">
+                <div class="canvas-container" id="p5-container">
+                    <!-- p5 sketch will be injected here -->
+                </div>
+
+                <div class="code-section"
+                    style="margin-top: 2rem; background: #fff; border: 1px solid #eaeaea; border-radius: 8px; padding: 1.5rem; box-shadow: 0 4px 6px rgba(0,0,0,0.02);">
+                    <h3 style="margin-top: 0; border-bottom: 1px solid #eaeaea; padding-bottom: 0.5rem;">Core Algorithm:
+                        Generating Continuous Paths</h3>
+                    <p style="color: #666; font-size: 0.95rem; margin-bottom: 1rem;">To plot efficiently, we want long,
+                        continuous lines so the pen doesn't have to constantly lift. For each starting point, we step
+                        forward based on the underlying Perlin noise angle, drawing a single unbroken line.</p>
+                    <pre
+                        style="background: #f4f4f4; color: #333; padding: 1rem; border-radius: 4px; overflow-x: auto; font-size: 0.85rem; font-family: ui-monospace, 'Courier New', Courier, monospace; border: 1px solid #e0e0e0; line-height: 1.5;"><code>beginShape();
+for (let j = 0; j < stepsPerPath; j++) {
+    vertex(x, y);
+
+    // Grab an angle from the noise grid at coordinates (x, y)
+    let angle = noise(x * noiseScale, y * noiseScale) * TWO_PI * 2;
+    
+    // Move slightly along that angle
+    x += cos(angle) * stepLength;
+    y += sin(angle) * stepLength;
+
+    // Terminate path early if it hits canvas edges
+    if (x < 0 || x > A5_WIDTH || y < 0 || y > A5_HEIGHT) {
+        break;
+    }
+}
+endShape();</code></pre>
+
+
+                    <h3>How does Perlin Noise create a smooth transition between pixels?</h3>
+                    <p>If you use a standard random() function, pixel 1 might be a value of 0.9 and pixel 2 right next
+                        to it could be 0.1. It results in harsh, jagged white noise. Perlin Noise solves this using
+                        interpolation (smooth averaging). Imagine a very wide grid spread over the canvas (called a
+                        lattice). The math algorithm assigns a random value only to the corners of the grid squares. If
+                        you ask for the noise value at a pixel that sits precisely in the middle of a grid square, the
+                        algorithm looks at the 4 corners, figures out how close the pixel is to each corner, and
+                        mathematically blends (interpolates) them using a smooth S-curve. Because adjacent pixels are
+                        physically super close to each other inside the same mathematical grid square, their blended
+                        results end up being virtually identical, which creates a smooth transition!</p>
+
+                    <h3>noiseScale</h3>
+                    <p>This is the most important variable in the sketch:</p>
+                    <pre
+                        style="background: #f4f4f4; color: #333; padding: 1rem; border-radius: 4px; overflow-x: auto; font-size: 0.85rem; font-family: ui-monospace, 'Courier New', Courier, monospace; border: 1px solid #e0e0e0; line-height: 1.5;"><code>let noiseScale = 0.01;
+noise(x * noiseScale, y * noiseScale)</code></pre>
+                    <p>The noise() function relies on those mathematical "grid squares" being a certain fixed distance
+                        apart (usually 1.0 units), if you ask for noise(1, 1) and then noise(2, 2), you are jumping
+                        entire grid squares at a time, and it will look chaotic. By multiplying by noiseScale = 0.01,
+                        you are tricking the function. You say "I'm at pixel 10, but please calculate the noise as if
+                        I'm
+                        at coordinate 0.10". The next pixel is "I'm at pixel 11, calculate coordinate 0.11". Because
+                        0.10 and 0.11 are so remarkably close to each other inside the exact same mathematical grid
+                        square, the noise function returns an almost identically smooth angle. These videos on <a
+                            href="https://www.youtube.com/watch?v=9LmeyvbforA">YouTube give a good overview of Perlin
+                            Noise</a>.</p>
+                </div>
+            </div>
+
+            <div class="sidebar">
+                <h3>About the Sketch</h3>
+                <p>A flow field operates by assigning an angle to every pixel on the canvas using Perlin noise. We then
+                    drop virtual "particles" onto the canvas and trace their path as they are swept along by the
+                    currents.</p>
+                <p>This creates incredibly smooth, organic, and wind-like patterns that look fantastic plotted with a
+                    fine liner pen.</p>
+                <p><strong>Dimensions:</strong> A5 (148 x 210 mm)</p>
+
+                <div class="controls">
+                    <button id="btn-animate" class="btn">Regenerate Flow</button>
+                    <button id="btn-toggle-grid" class="btn secondary"
+                        style="margin-bottom: 0.5rem; background-color: #e3f2fd; border-color: #90caf9; color: #0277bd;">Toggle
+                        Hidden Grid</button>
+                    <button id="btn-export" class="btn secondary">Export SVG for Plotter</button>
+                </div>
+
+                <div style="margin-top: 2rem;">
+                    <h3>Photo of Plot</h3>
+                    <img src="photo.jpeg" alt="Photo of Plot"
+                        style="max-width: 100%; height: auto; border: 1px solid #ccc; border-radius: 4px;">
+                    <img src="photo1.jpeg" alt="Photo of Plot"
+                        style="max-width: 100%; height: auto; border: 1px solid #ccc; border-radius: 4px;">
+                    <img src="photo2.jpeg" alt="Photo of Plot"
+                        style="max-width: 100%; height: auto; border: 1px solid #ccc; border-radius: 4px;">
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script src="sketch.js"></script>
+</body>
+
+</html>

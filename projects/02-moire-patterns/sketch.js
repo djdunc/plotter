@@ -28,7 +28,6 @@ function regenerate() {
 
 function draw() {
     clear();
-    background(255);
 
     stroke(0);
     strokeWeight(1.0); // Thinner stokes for finer interference detailing
